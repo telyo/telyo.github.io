@@ -1,0 +1,919 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android, 学习笔记" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="android一劳永逸的封装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android ListView进阶写法">
+<meta property="og:url" content="http://yoursite.com/2016/10/26/SuperAdapter/index.html">
+<meta property="og:site_name" content="Telyo的博客">
+<meta property="og:description" content="android一劳永逸的封装">
+<meta property="og:image" content="http://file.quweiwu.com/news/20151030102559902.jpg">
+<meta property="og:image" content="https://thumbnail0.baidupcs.com/thumbnail/7dbfb549ba7711ae468f919c66f6e59d?fid=3642803577-250528-543071848893274&time=1485010800&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-iPehkJB09ldRLNrFMBvzEPwosJo%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=486458017228393568&dp-callid=0&size=c710_u400&quality=100">
+<meta property="og:updated_time" content="2017-01-23T05:08:15.622Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android ListView进阶写法">
+<meta name="twitter:description" content="android一劳永逸的封装">
+<meta name="twitter:image" content="http://file.quweiwu.com/news/20151030102559902.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Telyo'
+    }
+  };
+</script>
+
+  <title> android ListView进阶写法 | Telyo的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Telyo的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                android ListView进阶写法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-26T21:47:44+08:00" content="2016-10-26">
+              2016-10-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android开发/" itemprop="url" rel="index">
+                    <span itemprop="name">android开发</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/26/SuperAdapter/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/26/SuperAdapter/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+              <span id="/2016/10/26/SuperAdapter/"class="leancloud_visitors"  data-flag-title="android ListView进阶写法">
+                   |   阅读次数
+               </span>
+          
+
+          
+          
+             <span id="/2016/10/26/SuperAdapter/" class="leancloud_visitors" data-flag-title="android ListView进阶写法">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://file.quweiwu.com/news/20151030102559902.jpg" alt=""></p>
+<h1 id="android一劳永逸的封装"><a href="#android一劳永逸的封装" class="headerlink" title="android一劳永逸的封装"></a>android一劳永逸的封装</h1><hr>
+<a id="more"></a>
+<h3 id="强大的封装"><a href="#强大的封装" class="headerlink" title="强大的封装"></a>强大的封装</h3><p>在了解到android开发的一些语言规则，然后对封装这个概念有一定理解后，之后的学习之路也感觉变得轻松一点点啦，android开发感觉就是对类、方法、参数的使用达到预期的效果，封装就会使我们的开发变得更加效率！在开发自己的软件的时候，对一个类，方法的自定义并且封装是非常常见的事情，我觉得万能的ListView就是一个很强大的列子，把原来封装好的类再进行优化封装，在重复用到适配listView的时候直接复制粘贴，传递自己的参数就是这么简单！这就是传说中的一劳永逸吧！</p>
+<p> 进入正题</p>
+<hr>
+<h3 id="传统的listView适配方法"><a href="#传统的listView适配方法" class="headerlink" title="传统的listView适配方法"></a>传统的listView适配方法</h3><p>为了对比还是得先熟悉一下传统方式的ListView适配的方法</p>
+<p>新建一个demo ：superListViewAdapter </p>
+<p>activity_main.xml如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/activity_main"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"superadapter.telyo.superlistadapter.MainActivity"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"Super Adapter"</span></div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"30dp"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ListView</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/list"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">ListView</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>写一个item的xlm样式如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"50dp"</span></div><div class="line">    <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/icon"</span></div><div class="line">        <span class="attr">android:src</span>=<span class="string">"@mipmap/ic_launcher"</span>/&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></div><div class="line">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"center_vertical"</span></div><div class="line">        <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/title"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"Title"</span>/&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/content"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"Content"</span>/&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">CheckBox</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/checkbox"</span></div><div class="line">        <span class="attr">android:layout_marginRight</span>=<span class="string">"20dp"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>为item样式写一个容器类ContactItem.java 代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContactItem</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String title;</div><div class="line">    <span class="keyword">private</span> String content;</div><div class="line">    <span class="keyword">private</span> ImageView icon;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> content;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> ImageView <span class="title">getIcon</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> icon;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTitle</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> title;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContext</span><span class="params">(String context)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.content = context;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(String title)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.title = title;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>MainActivit.java 代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> MyAdapter myAdapter;</div><div class="line">    <span class="keyword">private</span> ListView mlistView;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;ContactItem&gt; mContactItem = <span class="keyword">new</span> ArrayList&lt;ContactItem&gt;();</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        initData();</div><div class="line">        initView();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">()</span> </span>&#123;</div><div class="line">        mlistView = (ListView) findViewById(R.id.list);</div><div class="line">        mlistView.setAdapter(myAdapter);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initData</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (mContactItem.size() ==<span class="number">0</span>)&#123;</div><div class="line"></div><div class="line">            <span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">12</span>; i++)&#123;</div><div class="line">                ContactItem item = <span class="keyword">new</span> ContactItem();</div><div class="line">                item.setTitle(<span class="string">"我是标题"</span> + i);</div><div class="line">                item.setContext(<span class="string">"我是内容"</span> + i);</div><div class="line">                mContactItem.add(item);</div><div class="line">                <span class="comment">//System.out.println(mContactItem.get(i).getTitle());</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        myAdapter = <span class="keyword">new</span> MyAdapter(<span class="keyword">this</span>,mContactItem);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再接下来就是写Adapter了 创建MyAdapter 继承BaseAdapter在MyAdapter()方法中定义需要传入的两个参数：上下文和item的内容容器。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAdapter</span> <span class="keyword">extends</span> <span class="title">BaseAdapter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> LayoutInflater mInflater ;</div><div class="line">    <span class="keyword">private</span> List&lt;ContactItem&gt; mData;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyAdapter</span><span class="params">(Context context, List&lt;ContactItem&gt; datas)</span> </span>&#123;</div><div class="line">        mInflater = LayoutInflater.from(context);</div><div class="line">        mData = datas;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mData.size();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getItem</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mData.get(i);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getItemId</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> i;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line"> <span class="comment">/**</span></div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> i item的位置</div><div class="line">     * <span class="doctag">@param</span> view  item 的View 用于显示item的样式，里面所有的控件</div><div class="line">     *              文字啊、图片啊、按钮什么的都要用到 view.getviewById（）的方法找到</div><div class="line">     * <span class="doctag">@param</span> viewGroup 这里我理解我整个ListView 的view</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">     </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> i, View view, ViewGroup viewGroup)</span> </span>&#123;</div><div class="line">       <span class="comment">//初始化holder</span></div><div class="line">        ViewHolder holder;</div><div class="line">        <span class="keyword">if</span>(view == <span class="keyword">null</span>)&#123;</div><div class="line">            view = mInflater.inflate(R.layout.list_item,viewGroup,<span class="keyword">false</span>);</div><div class="line">            holder = <span class="keyword">new</span> ViewHolder();</div><div class="line">            holder.title = (TextView) view.findViewById(R.id.title);</div><div class="line">            holder.content = (TextView) view.findViewById(R.id.content);</div><div class="line">            holder.icon = (ImageView) view.findViewById(R.id.icon);</div><div class="line">            holder.checkBox = (CheckBox) view.findViewById(R.id.checkbox);</div><div class="line"></div><div class="line">            view.setTag(holder);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            holder = (ViewHolder) view.getTag();</div><div class="line">        &#125;</div><div class="line">		<span class="comment">//</span></div><div class="line">        ContactItem item = mData.get(i);</div><div class="line">        holder.title.setText(item.getTitle());</div><div class="line">        holder.content.setText(item.getContent());</div><div class="line">        holder.icon.setImageResource(R.mipmap.ic_launcher);</div><div class="line"></div><div class="line">        <span class="comment">//System.out.println(mData.get(i).getTitle() + i);</span></div><div class="line"></div><div class="line">        <span class="keyword">return</span> view;</div><div class="line">    &#125;</div><div class="line"><span class="comment">//因为传统写法每一个adapter对应一个listView，说以item的样式和内容基本上是会改变的，</span></div><div class="line"><span class="comment">//所以ViewHolder类就放在MyAdapter类里面了</span></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span></span>&#123;</div><div class="line">        <span class="keyword">public</span> TextView title;</div><div class="line">        <span class="keyword">public</span> TextView content;</div><div class="line">        <span class="keyword">public</span> ImageView icon;</div><div class="line">        <span class="keyword">public</span> CheckBox checkBox;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>好了传统的方法就是这样了，运行一下看看结果：</p>
+<p><img src="https://thumbnail0.baidupcs.com/thumbnail/7dbfb549ba7711ae468f919c66f6e59d?fid=3642803577-250528-543071848893274&amp;time=1485010800&amp;rt=sh&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-iPehkJB09ldRLNrFMBvzEPwosJo%3D&amp;expires=8h&amp;chkv=0&amp;chkbd=0&amp;chkpc=&amp;dp-logid=486458017228393568&amp;dp-callid=0&amp;size=c710_u400&amp;quality=100" alt=""></p>
+<h3 id="封装ViewHolder"><a href="#封装ViewHolder" class="headerlink" title="封装ViewHolder"></a>封装ViewHolder</h3><p>ViewHolder优化分析：</p>
+<p>由于—&gt;&gt;&gt;</p>
+<p>1、convertView的view.setTag（holder）;<br>2、ViewHolder：对convertView里各种控件的引用</p>
+<p>所以—&gt;&gt;&gt;</p>
+<p>ViewHolder类作为一个view的容器给convertView提供控件，使用比Map更高效的SparseArray<int, view="">作为view的容器</int,></p>
+<p>在ViewHolder里提供一个getView（int id）的方法得到相应的view进行操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> i, View view, ViewGroup viewGroup)</span> </span>&#123;</div><div class="line">ViewHolder holder = ...;</div><div class="line">TextView tv = holder.getView(view id);</div><div class="line">tv.setText(...);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 开始简化了：</p>
+<p> 1、将MyAdapter 里初始化ViewHolder的代码封装，新建一个包utils，里面新建一个ViewHolder类，holder需要引用到一些控件，这些控件需要convertView的findViewByID()方法找到，所以需要在ViewHolder（）方法里传入convertView参数，convertView需要他的parent inflate引入所以也传入parent参数，position将来点击事件也会用到这里先传入。具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> SparseArray&lt;View&gt; mViews;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mPosition;</div><div class="line">    <span class="keyword">private</span> View mConvertView;</div><div class="line"></div><div class="line">	 <span class="comment">//这里是用于初始化ViewHolder的两个方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ViewHolder</span><span class="params">(Context context,<span class="keyword">int</span> positon,ViewGroup perent,<span class="keyword">int</span> layoutId)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mPosition = positon;</div><div class="line">        <span class="keyword">this</span>.mViews = <span class="keyword">new</span> SparseArray&lt;View&gt;();</div><div class="line"></div><div class="line">        mConvertView = LayoutInflater.from(context).inflate(layoutId,perent,<span class="keyword">false</span>);</div><div class="line">        mConvertView.setTag(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ViewHolder <span class="title">get</span><span class="params">(Context context,<span class="keyword">int</span> positon,ViewGroup perent,<span class="keyword">int</span> layoutId,View convertView)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (convertView == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ViewHolder(context,positon,perent,layoutId);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> (ViewHolder)convertView.getTag();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">    通过viewId获取控件</div><div class="line">    建一个类（泛型T）继承View 里面定义一个getView方法，返回一个view</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> &lt;T extends View&gt; <span class="function">T  <span class="title">getView</span><span class="params">(<span class="keyword">int</span> viewId)</span></span>&#123;</div><div class="line">        View view = mViews.get(viewId);</div><div class="line">        <span class="keyword">if</span> (view == <span class="keyword">null</span>)&#123;</div><div class="line">            view =mConvertView.findViewById(viewId);</div><div class="line">            mViews.put(viewId,view);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (T) view;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//对外公布方法获取convertView，</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getmConvertView</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mConvertView;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//现在虽然用不到position 以后设置item点击的时候总会用到先写在这里</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getmPosition</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mPosition;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后简化Adapter 在utils包里新建一个MyAdapterWithCommonViewHolder类 代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonAdapter</span> <span class="keyword">extends</span> <span class="title">BaseAdapter</span> </span>&#123;</div><div class="line"></div><div class="line">   <span class="comment">// private LayoutInflater mInflater ;</span></div><div class="line">    <span class="keyword">private</span> List&lt;ContactItem&gt; mData;</div><div class="line">    <span class="keyword">private</span> Context mContent;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CommonAdapter</span><span class="params">(Context context, List&lt;ContactItem&gt; datas)</span> </span>&#123;</div><div class="line">        <span class="comment">//mInflater = LayoutInflater.from(context);</span></div><div class="line">        mData = datas;</div><div class="line">        <span class="keyword">this</span>.mContent = context;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mData.size();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getItem</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mData.get(i);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getItemId</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> i;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> i, View view, ViewGroup viewGroup)</span> </span>&#123;</div><div class="line">        ViewHolder holder = ViewHolder.get(mContent,i,viewGroup,R.layout.list_item,view);</div><div class="line"></div><div class="line">        ContactItem item = mData.get(i);</div><div class="line"></div><div class="line">        ((TextView)holder.getView(R.id.title)).setText(item.getTitle());</div><div class="line">        ((TextView)holder.getView(R.id.content)).setText(item.getContent());</div><div class="line">        ((ImageView)holder.getView(R.id.icon)).setImageResource(R.mipmap.ic_launcher);</div><div class="line">        <span class="comment">//System.out.println(mData.get(i).getTitle() + i);</span></div><div class="line">        <span class="keyword">return</span> holder.getmConvertView();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这时候比较一下初始化holder的代码就没有了，注意最后一行应该是return holder.getmConvertView();</p>
+<p> 修改MainActivity：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ListView mlistView;</div><div class="line">    <span class="keyword">private</span> CommonAdapter mCommonAdapter;</div><div class="line">    <span class="keyword">private</span> List&lt;ContactItem&gt; mContactItem = <span class="keyword">new</span> ArrayList&lt;ContactItem&gt;();</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        initData();</div><div class="line">        initView();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">()</span> </span>&#123;</div><div class="line">        mlistView = (ListView) findViewById(R.id.list);</div><div class="line">        mlistView.setAdapter(mCommonAdapter);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initData</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (mContactItem.size() ==<span class="number">0</span>)&#123;</div><div class="line"></div><div class="line">            <span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">12</span>; i++)&#123;</div><div class="line">                ContactItem item = <span class="keyword">new</span> ContactItem();</div><div class="line">                item.setTitle(<span class="string">"我是标题"</span> + i);</div><div class="line">                item.setContext(<span class="string">"我是内容"</span> + i);</div><div class="line">                mContactItem.add(item);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        mCommonAdapter = <span class="keyword">new</span> CommonAdapter(<span class="keyword">this</span>,mContactItem);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="封装Adapter"><a href="#封装Adapter" class="headerlink" title="封装Adapter"></a>封装Adapter</h3><p> 在utils包里新建一个CommonAdapterFinal类 代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonAdapterFinal</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">BaseAdapter</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> Context mContext;</div><div class="line">    <span class="keyword">protected</span> List&lt;T&gt; mDatas;</div><div class="line">    <span class="keyword">protected</span> LayoutInflater mInflater;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CommonAdapterFinal</span><span class="params">(Context context, List&lt;T&gt; datas)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span> .mContext = context;</div><div class="line">        mInflater = LayoutInflater.from(context);</div><div class="line">        <span class="keyword">this</span>.mDatas = datas;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mDatas.size();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getItem</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mDatas.get(i);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getItemId</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> i;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> i, View view, ViewGroup viewGroup)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 这个类封装好了主要是用来继承的，那么原来的CommonAdapter可以写的很简单了，让CommonAdapter继承CommonAdapterFinal代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonAdapter</span> <span class="keyword">extends</span> <span class="title">CommonAdapterFinal</span>&lt;<span class="title">ContactItem</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CommonAdapter</span><span class="params">(Context context, List&lt;ContactItem&gt; datas)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context,datas);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> i, View view, ViewGroup viewGroup)</span> </span>&#123;</div><div class="line">        ViewHolder holder = ViewHolder.get(mContext,i,viewGroup,R.layout.list_item,view);</div><div class="line"></div><div class="line">        ContactItem item = mDatas.get(i);</div><div class="line"></div><div class="line">        ((TextView)holder.getView(R.id.title)).setText(item.getTitle());</div><div class="line">        ((TextView)holder.getView(R.id.content)).setText(item.getContent());</div><div class="line">        ((ImageView)holder.getView(R.id.icon)).setImageResource(R.mipmap.ic_launcher);</div><div class="line">        <span class="keyword">return</span> holder.getmConvertView();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> MainActivity代码不变</p>
+<p> 所以有了CommonAdapterFall类和封装好的ViewHolder类以后，遇到再多listView只需要拷贝这两个类，写一个adapter继承CommonAdapterFall即可！接下来在对这两个类进行优化，可以做到适配一个listView只需要短短几行代码就可以实现！</p>
+<h3 id="进阶优化"><a href="#进阶优化" class="headerlink" title="进阶优化"></a>进阶优化</h3><p> 还是对adapter进行优化，原则是：有能用方法传递参数给子类的方式，就绝不在子类写方法获取，能在父类返回的参数值也不会再子类中去返回，子类继承后就没事了！CommonAdapterFall修改如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonAdapterFinal</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">BaseAdapter</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> Context mContext;</div><div class="line">    <span class="keyword">protected</span> List&lt;T&gt; mDatas;</div><div class="line">    <span class="keyword">protected</span> LayoutInflater mInflater;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CommonAdapterFinal</span><span class="params">(Context context, List&lt;T&gt; datas)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span> .mContext = context;</div><div class="line">        mInflater = LayoutInflater.from(context);</div><div class="line">        <span class="keyword">this</span>.mDatas = datas;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mDatas.size();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getItem</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mDatas.get(i);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getItemId</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> i;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span>  View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> i, View view, ViewGroup viewGroup)</span></span>&#123;</div><div class="line">        ViewHolder holder = ViewHolder.get(mContext,i,viewGroup, R.layout.list_item,view);</div><div class="line">        convert(holder,getItem(i));</div><div class="line">        <span class="keyword">return</span> holder.getmConvertView();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//抽象一个方法传递参数给子类实现</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(ViewHolder holder,T t)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后每次用到的adapter简化如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonAdapter</span> <span class="keyword">extends</span> <span class="title">CommonAdapterFinal</span>&lt;<span class="title">ContactItem</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CommonAdapter</span><span class="params">(Context context, List&lt;ContactItem&gt; datas)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context,datas);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(ViewHolder holder, ContactItem contactItem)</span> </span>&#123;</div><div class="line">        ((TextView)holder.getView(R.id.title)).setText(contactItem.getTitle());</div><div class="line">        ((TextView)holder.getView(R.id.content)).setText(contactItem.getContent());</div><div class="line">        ((ImageView)holder.getView(R.id.icon)).setImageResource(R.mipmap.ic_launcher);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>是不是又短了一点！</p>
+<p>到此为止了么其实没有！  继续简化吧！！！</p>
+<p>看最终代码：</p>
+<p>ViewHolder类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> SparseArray&lt;View&gt; mViews;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mPosition;</div><div class="line">    <span class="keyword">private</span> View mConvertView;</div><div class="line"></div><div class="line">    <span class="comment">//这里是用于初始化ViewHolder的两个方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ViewHolder</span><span class="params">(Context context,<span class="keyword">int</span> positon,ViewGroup perent,<span class="keyword">int</span> layoutId)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mPosition = positon;</div><div class="line">        <span class="keyword">this</span>.mViews = <span class="keyword">new</span> SparseArray&lt;View&gt;();</div><div class="line"></div><div class="line">        mConvertView = LayoutInflater.from(context).inflate(layoutId,perent,<span class="keyword">false</span>);</div><div class="line">        mConvertView.setTag(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ViewHolder <span class="title">get</span><span class="params">(Context context,<span class="keyword">int</span> positon,ViewGroup perent,<span class="keyword">int</span> layoutId,View convertView)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (convertView == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ViewHolder(context,positon,perent,layoutId);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> (ViewHolder)convertView.getTag();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">    通过viewId获取控件</div><div class="line">    建一个类（泛型T）继承View 里面定义一个getView方法，返回一个view</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> &lt;T extends View&gt; <span class="function">T  <span class="title">getView</span><span class="params">(<span class="keyword">int</span> viewId)</span></span>&#123;</div><div class="line">        View view = mViews.get(viewId);</div><div class="line">        <span class="keyword">if</span> (view == <span class="keyword">null</span>)&#123;</div><div class="line">            view =mConvertView.findViewById(viewId);</div><div class="line">            mViews.put(viewId,view);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (T) view;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//对外公布方法获取convertView，</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getmConvertView</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mConvertView;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//现在虽然用不到position 以后设置item点击的时候总会用到先写在这里</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getmPosition</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mPosition;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//直接调用代码设置listView 每个item里的控件的相关值，以后缺什么就直接在这里加</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">setText</span><span class="params">(<span class="keyword">int</span> viewId,String text)</span></span>&#123;</div><div class="line">        TextView tv = getView(viewId);</div><div class="line">        tv.setText(text);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">setImageResource</span><span class="params">(<span class="keyword">int</span> viewId,<span class="keyword">int</span> imgId)</span></span>&#123;</div><div class="line">        ImageView iv = getView(viewId);</div><div class="line">        iv.setImageResource(imgId);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>CommonAdapterFinal类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonAdapterFinal</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">BaseAdapter</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> Context mContext;</div><div class="line">    <span class="keyword">protected</span> List&lt;T&gt; mDatas;</div><div class="line">    <span class="keyword">protected</span> LayoutInflater mInflater;</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> mLayoutId;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CommonAdapterFinal</span><span class="params">(Context context, List&lt;T&gt; datas,<span class="keyword">int</span> layoutId)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span> .mContext = context;</div><div class="line">        mInflater = LayoutInflater.from(context);</div><div class="line">        <span class="keyword">this</span>.mDatas = datas;</div><div class="line">        <span class="keyword">this</span>.mLayoutId = layoutId;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mDatas.size();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getItem</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mDatas.get(i);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getItemId</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> i;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span>  View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> i, View view, ViewGroup viewGroup)</span></span>&#123;</div><div class="line">        ViewHolder holder = ViewHolder.get(mContext,i,viewGroup,mLayoutId,view);</div><div class="line">        convert(holder,getItem(i));</div><div class="line">        <span class="keyword">return</span> holder.getmConvertView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//抽象一个方法传递参数给子类实现</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(ViewHolder holder,T t)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以后需要写listView直接复制这两个类就行了</p>
+<p> 自己的容器：ContactItem</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContactItem</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String title;</div><div class="line">    <span class="keyword">private</span> String content;</div><div class="line">    <span class="keyword">private</span> ImageView icon;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> content;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> ImageView <span class="title">getIcon</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> icon;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTitle</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> title;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContext</span><span class="params">(String context)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.content = context;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(String title)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.title = title;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 然后就是MainActivity:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ListView mlistView;</div><div class="line">    <span class="keyword">private</span> CommonAdapter mCommonAdapter;</div><div class="line">    <span class="keyword">private</span> List&lt;ContactItem&gt; mContactItem = <span class="keyword">new</span> ArrayList&lt;ContactItem&gt;();</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        initData();</div><div class="line">        initView();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">()</span> </span>&#123;</div><div class="line">        mlistView = (ListView) findViewById(R.id.list);</div><div class="line">        mlistView.setAdapter(mCommonAdapter);</div><div class="line">         mlistView.setOnItemClickListener(<span class="keyword">new</span> AdapterView.OnItemClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView&lt;?&gt; adapterView, View view, <span class="keyword">int</span> i, <span class="keyword">long</span> l)</span> </span>&#123;</div><div class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>,<span class="string">"点击了第"</span>+i+<span class="string">"个itme"</span>,Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initData</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (mContactItem.size() ==<span class="number">0</span>)&#123;</div><div class="line"></div><div class="line">            <span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">12</span>; i++)&#123;</div><div class="line">                ContactItem item = <span class="keyword">new</span> ContactItem();</div><div class="line">                item.setTitle(<span class="string">"我是标题"</span> + i);</div><div class="line">                item.setContext(<span class="string">"我是内容"</span> + i);</div><div class="line">                mContactItem.add(item);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        mCommonAdapter = <span class="keyword">new</span> CommonAdapter(<span class="keyword">this</span>,mContactItem,R.layout.list_item);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonAdapter</span> <span class="keyword">extends</span> <span class="title">CommonAdapterFinal</span>&lt;<span class="title">ContactItem</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">CommonAdapter</span><span class="params">(Context context, List&lt;ContactItem&gt; datas, <span class="keyword">int</span> layoutId)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(context,datas,layoutId);</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(ViewHolder holder, ContactItem contactItem)</span> </span>&#123;</div><div class="line">            holder.setText(R.id.title,contactItem.getTitle()).setText(R.id.content,contactItem.getContent())</div><div class="line">                    .setImageResource(R.id.icon,R.mipmap.ic_launcher);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> adapter直接写成内部类就行啦！</p>
+<h3 id="listView的常见错误"><a href="#listView的常见错误" class="headerlink" title="listView的常见错误"></a>listView的常见错误</h3><p>1、子控件抢占点击焦点</p>
+<p>我写了item的点击事件、但是由于item里有CheckBox子控件抢占了焦点，点击item没有任何反应，这是需要设置CheckBox属性android:focusable = “false”   或者设置当前最外层控件属性android:descendantFocusability=”blocksDescendants”不让焦点往下传，两种方法。</p>
+<hr>
+<p><a href="https://github.com/telyo/SuperAdapter.git" target="_blank" rel="external">源码</a></p>
+<h6 id="荆轲刺秦王-拜了个拜"><a href="#荆轲刺秦王-拜了个拜" class="headerlink" title="荆轲刺秦王  拜了个拜"></a>荆轲刺秦王  拜了个拜</h6>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/01/Content Provider/" rel="next" title="Content Provider">
+                <i class="fa fa-chevron-left"></i> Content Provider
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/29/android无限消息推送/" rel="prev" title="android无限消息推送">
+                android无限消息推送 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/26/SuperAdapter/"
+           data-title="android ListView进阶写法" data-url="http://yoursite.com/2016/10/26/SuperAdapter/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Telyo" />
+          <p class="site-author-name" itemprop="name">Telyo</p>
+          <p class="site-description motion-element" itemprop="description">天下事有难易乎？为之，则难者亦易矣；不为，则易者亦难矣。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#android一劳永逸的封装"><span class="nav-number">1.</span> <span class="nav-text">android一劳永逸的封装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#强大的封装"><span class="nav-number">1.0.1.</span> <span class="nav-text">强大的封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传统的listView适配方法"><span class="nav-number">1.0.2.</span> <span class="nav-text">传统的listView适配方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#封装ViewHolder"><span class="nav-number">1.0.3.</span> <span class="nav-text">封装ViewHolder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#封装Adapter"><span class="nav-number">1.0.4.</span> <span class="nav-text">封装Adapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进阶优化"><span class="nav-number">1.0.5.</span> <span class="nav-text">进阶优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#listView的常见错误"><span class="nav-number">1.0.6.</span> <span class="nav-text">listView的常见错误</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#荆轲刺秦王-拜了个拜"><span class="nav-number">1.0.6.0.0.1.</span> <span class="nav-text">荆轲刺秦王  拜了个拜</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Telyo</span>
+</div>
+
+<div class="powered-by">
+     telyoTang
+</div>
+
+<div class="theme-info">
+  Blog -
+  
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"telyo"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("ulRMOmugz542QzLu3fUMbbOe-gzGzoHsz#<app_id>", "HCGx2XI9aTwohS8nW9y5LSib#<app_key>");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>
